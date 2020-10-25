@@ -1,0 +1,21 @@
+Output/Release/Obj/ble_app_uart_c_pca10056_s140/system_nrf52840.o: \
+ /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/modules/nrfx/mdk/system_nrf52840.c \
+ /usr/share/segger_embedded_studio_for_arm_5.10a/include/stdint.h \
+ /usr/share/segger_embedded_studio_for_arm_5.10a/include/stdbool.h \
+ /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/modules/nrfx/mdk/nrf.h \
+ /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/modules/nrfx/mdk/nrf52840.h \
+ ../../../../../../components/toolchain/cmsis/include/core_cm4.h \
+ ../../../../../../components/toolchain/cmsis/include/cmsis_version.h \
+ ../../../../../../components/toolchain/cmsis/include/cmsis_compiler.h \
+ ../../../../../../components/toolchain/cmsis/include/cmsis_gcc.h \
+ ../../../../../../components/toolchain/cmsis/include/mpu_armv7.h \
+ /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/modules/nrfx/mdk/system_nrf52840.h \
+ /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/modules/nrfx/mdk/nrf52840_bitfields.h \
+ /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/modules/nrfx/mdk/nrf51_to_nrf52840.h \
+ /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/modules/nrfx/mdk/nrf52_to_nrf52840.h \
+ /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/modules/nrfx/mdk/compiler_abstraction.h \
+ /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/modules/nrfx/mdk/nrf_erratas.h \
+ /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/modules/nrfx/mdk/nrf51_erratas.h \
+ /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/modules/nrfx/mdk/nrf52_erratas.h \
+ /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/modules/nrfx/mdk/nrf53_erratas.h \
+ /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/modules/nrfx/mdk/nrf91_erratas.h
