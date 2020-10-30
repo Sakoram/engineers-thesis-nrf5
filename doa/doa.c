@@ -25,7 +25,7 @@ inline void doa_receive_RSS(doa_t* doa, uint8_t rss)
 
 static void _doa_receive_RSS(doa_t* doa, uint8_t rss)
 {
-    NRF_LOG_DEBUG("_doa_receive_RSS rss == %d", rss);
+    //NRF_LOG_DEBUG("_doa_receive_RSS rss == %d", rss);
     if (doa->calibrated)
     {
         doa->rss_samples[doa->sample_count++] = rss;
@@ -106,7 +106,7 @@ static void doa_calculate_doa(doa_t* doa)
 static void doa_set_calibration_sample(doa_t* doa, uint8_t rss)
 {
     doa_evt_t evt;
-    NRF_LOG_DEBUG("doa_set_calibration_sample: angle == %d, config == %d ", doa->messered_angle, doa->antenna.configuration);
+    //NRF_LOG_DEBUG("doa_set_calibration_sample: angle == %d, config == %d ", doa->messered_angle, doa->antenna.configuration);
     doa->calibration_rss_samples[doa->messered_angle][doa->antenna.configuration] = rss;
     if (antenna_set_next_configuration(&doa->antenna))
     {

@@ -115,7 +115,7 @@ static void timer_doa_init(uint32_t time_ms)
 /**@brief Function to start scanning. */
 static void scan_start(void)
 {
-    printf("scan start\r\n");
+    //!!printf("scan start\r\n");
     NRF_LOG_INFO("scan start");
     ret_code_t ret;
 
@@ -207,13 +207,13 @@ static void uart_event_handle(app_uart_evt_t * p_event)
                 {
                     bsp_board_leds_off();
                     uint16_t angle = doa_inc_angle(&m_doa);
-                    printf("NEXT ENGLE SET!! engle == %d\r\n", angle);
+                    //!!printf("NEXT ENGLE SET!! engle == %d\r\n", angle);
                 }
                 else if (memcmp(data_array, "prev\r",index) == 0)
                 {
                     bsp_board_leds_off();
                     uint16_t angle = doa_dec_angle(&m_doa);
-                    printf("PREVIOUS ENGLE SET!! engle == %d\r\n", angle);
+                    //!!printf("PREVIOUS ENGLE SET!! engle == %d\r\n", angle);
                 }
                 index = 0;
             }
@@ -306,36 +306,36 @@ static void log_init(void)
     NRF_LOG_DEFAULT_BACKENDS_INIT();
 }
 
-static void bsp_event_handler(bsp_event_t evt)
-{
-    uint32_t err_code;
-    uint16_t angle;
-    switch(evt)
-    {
-        case BSP_EVENT_KEY_0:
-            bsp_board_leds_off();
-            angle = doa_inc_angle(&m_doa);
-            printf("NEXT ENGLE SET!! engle == %d\r\n", angle);
-        break;
+//static void bsp_event_handler(bsp_event_t evt)
+//{
+//    uint32_t err_code;
+//    uint16_t angle;
+//    switch(evt)
+//    {
+//        case BSP_EVENT_KEY_0:
+//            bsp_board_leds_off();
+//            angle = doa_inc_angle(&m_doa);
+//            printf("NEXT ENGLE SET!! engle == %d\r\n", angle);
+//        break;
 
-        case BSP_EVENT_KEY_1:
-            bsp_board_leds_off();
-            angle = doa_dec_angle(&m_doa);
-            printf("PREVIOUS ENGLE SET!! engle == %d\r\n", angle);
-        break;
+//        case BSP_EVENT_KEY_1:
+//            bsp_board_leds_off();
+//            angle = doa_dec_angle(&m_doa);
+//            printf("PREVIOUS ENGLE SET!! engle == %d\r\n", angle);
+//        break;
 
-        default:
-            return;
-    }
-}
+//        default:
+//            return;
+//    }
+//}
 
 // create  a function to configure all the leds and buttons 
-static void bsp_configure(void)
-{
-    uint32_t err_code = bsp_init(BSP_INIT_LEDS | BSP_INIT_BUTTONS, bsp_event_handler);
-    bsp_board_leds_off();
-    APP_ERROR_CHECK(err_code);
-}
+//static void bsp_configure(void)
+//{
+//    uint32_t err_code = bsp_init(BSP_INIT_LEDS | BSP_INIT_BUTTONS, bsp_event_handler);
+//    bsp_board_leds_off();
+//    APP_ERROR_CHECK(err_code);
+//}
 
 /**@brief Function for initializing the app timer. */
 static void timer_init(void)
@@ -349,30 +349,31 @@ static void doa_handler(doa_evt_t const * p_evt)
     switch(p_evt->evt_id)
     {
         case DOA_DIRECTION_ESTIMATED:
-            printf("DOA_DIRECTION_ESTIMATED == %d \r\n", p_evt->param.direction);
+            //!!printf("DOA_DIRECTION_ESTIMATED == %d \r\n", p_evt->param.direction);
+            NRF_LOG_DEBUG("DOA_DIRECTION_ESTIMATED == %d \r\n", p_evt->param.direction);
             break;
 
         case DOA_CALIBRATION_END:
             if (p_evt->param.calibration_successful)
             {
-                printf("DOA_CALIBRATION SUCCESS! \r\n");
-                bsp_board_led_on(2); 
+                //!!printf("DOA_CALIBRATION SUCCESS! \r\n");
+                //bsp_board_led_on(2); 
             }
             else
             {
-                printf("DOA_CALIBRATION FAIL! \r\n");
-                bsp_board_led_on(0); 
+                //!!printf("DOA_CALIBRATION FAIL! \r\n");
+                //bsp_board_led_on(0); 
             }
             break;
 
         case DOA_ANGLE_SETUP_REQUIRED:
-            printf("DOA_ANGLE_SETUP_REQUIRED \r\n");
-            bsp_board_led_on(3); 
+            //!!printf("DOA_ANGLE_SETUP_REQUIRED \r\n");
+            //bsp_board_led_on(3); 
             break;
 
         case DOA_PACKET_TIMEOUT:
-            printf("DOA_PACKET_TIMEOUT \r\n");
-            bsp_board_led_on(1);
+            //!!printf("DOA_PACKET_TIMEOUT \r\n");
+            //bsp_board_led_on(1);
             break;
 
         default:
@@ -383,12 +384,12 @@ static void doa_handler(doa_evt_t const * p_evt)
 int main(void)
 {
     log_init();
-    uart_init();
+   // uart_init();
     ble_stack_init();
     scan_init();
     doa_init(&m_doa, doa_handler);
     timer_init();
-    bsp_configure();
+    //bsp_configure();
     timer_doa_init(1000);
     scan_start();
 
@@ -399,7 +400,7 @@ int main(void)
     for(int i = 0; i< 25; i++)
     {
        uint16_t simulated_dir = simulation_send_measurement_packets(&m_doa);
-       printf("simulated_dir == %d .\r\n", simulated_dir);
+       //!!printf("simulated_dir == %d .\r\n", simulated_dir);
        //nrf_drv_timer_disable(&m_timer_doa);
     }
 #endif
