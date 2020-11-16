@@ -1,9 +1,9 @@
 Output/Release/Obj/ble_app_uart_c_pca10056_s140/nrf_memobj.o: \
  /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/components/libraries/memobj/nrf_memobj.c \
  /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/components/libraries/memobj/nrf_memobj.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/stdint.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/stdlib.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/__crossworks.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/stdint.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/stdlib.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/__crossworks.h \
  ../../../../../../components/libraries/util/sdk_errors.h \
  ../../../../../../components/softdevice/s140/headers/nrf_error.h \
  ../../../../../../components/libraries/balloc/nrf_balloc.h \
@@ -29,13 +29,13 @@ Output/Release/Obj/ble_app_uart_c_pca10056_s140/nrf_memobj.o: \
  ../../../../../../components/softdevice/s140/headers/nrf_nvic.h \
  ../../../../../../components/libraries/util/nrf_assert.h \
  ../../../../../../components/libraries/util/app_error.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/stdio.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/stdbool.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/stdio.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/stdbool.h \
  ../../../../../../components/libraries/util/sdk_errors.h \
  ../../../../../../components/libraries/util/nordic_common.h \
  ../../../../../../components/libraries/util/app_error_weak.h \
  ../../../../../../components/libraries/util/app_util.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/stddef.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/stddef.h \
  ../../../../../../components/softdevice/s140/headers/nrf52/nrf_mbr.h \
  ../../../../../../components/softdevice/s140/headers/nrf_svc.h \
  ../../../../../../components/libraries/log/nrf_log_instance.h \
@@ -44,7 +44,7 @@ Output/Release/Obj/ble_app_uart_c_pca10056_s140/nrf_memobj.o: \
  ../../../../../../components/libraries/log/nrf_log_types.h \
  ../../../../../../components/libraries/atomic/nrf_atomic.h \
  ../../../../../../components/libraries/util/sdk_common.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/string.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/string.h \
  ../../../../../../components/libraries/util/sdk_os.h \
  ../../../../../../components/libraries/util/app_util.h \
  ../../../../../../components/libraries/util/sdk_macros.h \

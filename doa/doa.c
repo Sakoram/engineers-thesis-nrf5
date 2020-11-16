@@ -106,7 +106,7 @@ static void doa_calculate_doa(doa_t* doa)
 static void doa_set_calibration_sample(doa_t* doa, uint8_t rss)
 {
     doa_evt_t evt;
-    //NRF_LOG_DEBUG("doa_set_calibration_sample: angle == %d, config == %d ", doa->messered_angle, doa->antenna.configuration);
+    NRF_LOG_DEBUG("doa_set_calibration_sample: %d angle == %d, config == %d ", rss,  doa->messered_angle, doa->antenna.configuration);
     doa->calibration_rss_samples[doa->messered_angle][doa->antenna.configuration] = rss;
     if (antenna_set_next_configuration(&doa->antenna))
     {
@@ -152,7 +152,7 @@ void doa_start_calibration(doa_t* doa, bool manual_angle_setup)
     {
         doa->angle_set = false;
         doa_evt_t evt;
-        evt.evt_id = DOA_ANGLE_SETUP_REQUIRED;
+        evt.evt_id = DOA_WAITING_FOR_START;
         doa->evt_handler(&evt);
     }
     else
@@ -177,4 +177,8 @@ uint16_t doa_dec_angle(doa_t* doa)
         doa->angle_set = true;
     }
     return doa->messered_angle;
+}
+void doa_start(doa_t* doa)
+{
+    doa->angle_set = true;
 }

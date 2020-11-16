@@ -1,7 +1,7 @@
 Output/Release/Obj/ble_app_uart_c_pca10056_s140/bsp_btn_ble.o: \
  /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/components/libraries/bsp/bsp_btn_ble.c \
  /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/components/libraries/bsp/bsp_btn_ble.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/stdint.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/stdint.h \
  ../../../../../../components/softdevice/s140/headers/ble.h \
  ../../../../../../components/softdevice/s140/headers/nrf_svc.h \
  ../../../../../../components/softdevice/s140/headers/nrf_error.h \
@@ -27,14 +27,14 @@ Output/Release/Obj/ble_app_uart_c_pca10056_s140/bsp_btn_ble.o: \
  ../../../../../../modules/nrfx/mdk/compiler_abstraction.h \
  ../../../../../../components/softdevice/s140/headers/ble_gatts.h \
  /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/components/libraries/bsp/bsp.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/stdbool.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/stdbool.h \
  ../../../../../../components/boards/boards.h \
  ../../../../../../modules/nrfx/hal/nrf_gpio.h \
  ../../../../../../modules/nrfx/nrfx.h \
  ../../../../../../integration/nrfx/nrfx_config.h ../config/sdk_config.h \
  ../../../../../../modules/nrfx/drivers/nrfx_common.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/stddef.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/__crossworks.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/stddef.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/__crossworks.h \
  ../../../../../../modules/nrfx/mdk/nrf_peripherals.h \
  ../../../../../../modules/nrfx/mdk/nrf52840_peripherals.h \
  ../../../../../../integration/nrfx/nrfx_glue.h \
@@ -54,7 +54,7 @@ Output/Release/Obj/ble_app_uart_c_pca10056_s140/bsp_btn_ble.o: \
  ../../../../../../components/softdevice/s140/headers/nrf_nvic.h \
  ../../../../../../components/libraries/util/nrf_assert.h \
  ../../../../../../components/libraries/util/app_error.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/stdio.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/stdio.h \
  ../../../../../../components/libraries/util/sdk_errors.h \
  ../../../../../../components/softdevice/s140/headers/nrf_error.h \
  ../../../../../../components/libraries/util/app_error_weak.h \

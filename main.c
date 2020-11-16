@@ -6,7 +6,7 @@
 #include "app_uart.h"
 #include "app_timer.h"
 #include "app_util.h"
-#include "bsp_btn_ble.h"
+//#include "bsp_btn_ble.h"
 #include "ble.h"
 #include "ble_gap.h"
 #include "ble_hci.h"
@@ -30,6 +30,17 @@
 #include "simulation.h"
 #include "doa.h"
 
+#include "nrf_drv_clock.h"
+//#include "nrf_gpio.h"
+#include "nrf_drv_power.h"
+
+//#include "bsp.h"
+#include "usb.h"
+#include "app_usbd.h"
+
+
+
+
 #define APP_BLE_CONN_CFG_TAG    1                                       /**< Tag that refers to the BLE stack configuration set with @ref sd_ble_cfg_set. The default tag is @ref BLE_CONN_CFG_TAG_DEFAULT. */
 #define APP_BLE_OBSERVER_PRIO   3                                       /**< BLE observer priority of the application. There is no need to modify this value. */
 
@@ -39,8 +50,7 @@
 #define ECHOBACK_BLE_UART_DATA  1                                       /**< Echo the UART data that is received over the Nordic UART Service (NUS) back to the sender. */
 
 
-
-NRF_BLE_GATT_DEF(m_gatt);                                               /**< GATT module instance. */
+//NRF_BLE_GATT_DEF(m_gatt);                                               /**< GATT module instance. */
 NRF_BLE_SCAN_DEF(m_scan);                                               /**< Scanning Module instance. */
 static doa_t m_doa;                                                     /**< DoA module instance. */
 const nrfx_timer_t m_timer_doa = NRF_DRV_TIMER_INSTANCE(1);
@@ -50,6 +60,7 @@ static ble_uuid_t const some_random_uuid =
     .uuid = 0xABCD,
     .type = 1
 };
+
 
 
 
@@ -116,6 +127,7 @@ static void timer_doa_init(uint32_t time_ms)
 static void scan_start(void)
 {
     //!!printf("scan start\r\n");
+    usb_print("scan start\r\n");
     NRF_LOG_INFO("scan start");
     ret_code_t ret;
 
@@ -176,66 +188,6 @@ static void scan_init(void)
     APP_ERROR_CHECK(err_code);
 }
 
-/**@brief   Function for handling app_uart events.
- *
- * @details This function receives a single character from the app_uart module and appends it to
- *          a string. The string is sent over BLE when the last character received is a
- *          'new line' '\n' (hex 0x0A) or if the string reaches the maximum data length.
- */
-static void uart_event_handle(app_uart_evt_t * p_event)
-{
-   static uint8_t data_array[20];
-    static uint16_t index = 0;
-    uint32_t ret_val;
-
-    switch (p_event->evt_type)
-    {
-        /**@snippet [Handling data from UART] */
-        case APP_UART_DATA_READY:
-        {
-        
-            UNUSED_VARIABLE(app_uart_get(&data_array[index]));
-            index++;
-
-            if ((data_array[index - 1] == '\n') ||
-                (data_array[index - 1] == '\r') ||
-                (index >= (20))) 
-            {
-                NRF_LOG_DEBUG("Ready to send data over BLE NUS");
-                NRF_LOG_HEXDUMP_DEBUG(data_array, index);
-                if (memcmp(data_array, "next\r",index) == 0)
-                {
-                    bsp_board_leds_off();
-                    uint16_t angle = doa_inc_angle(&m_doa);
-                    //!!printf("NEXT ENGLE SET!! engle == %d\r\n", angle);
-                }
-                else if (memcmp(data_array, "prev\r",index) == 0)
-                {
-                    bsp_board_leds_off();
-                    uint16_t angle = doa_dec_angle(&m_doa);
-                    //!!printf("PREVIOUS ENGLE SET!! engle == %d\r\n", angle);
-                }
-                index = 0;
-            }
-        } 
-        break;
-
-        /**@snippet [Handling data from UART] */
-        case APP_UART_COMMUNICATION_ERROR:
-            NRF_LOG_ERROR("Communication error occurred while handling UART.");
-            APP_ERROR_HANDLER(p_event->data.error_communication);
-            break;
-
-        case APP_UART_FIFO_ERROR:
-            NRF_LOG_ERROR("Error occurred in FIFO module used by UART.");
-            APP_ERROR_HANDLER(p_event->data.error_code);
-            break;
-
-        default:
-            break;
-    }
-}
-
 /**@brief Function for handling BLE events.
  *
  * @param[in]   p_ble_evt   Bluetooth stack event.
@@ -271,31 +223,6 @@ static void ble_stack_init(void)
     NRF_SDH_BLE_OBSERVER(m_ble_observer, APP_BLE_OBSERVER_PRIO, ble_evt_handler, NULL);
 }
 
-/**@brief Function for initializing the UART. */
-static void uart_init(void)
-{
-    ret_code_t err_code;
-
-    app_uart_comm_params_t const comm_params =
-    {
-        .rx_pin_no    = RX_PIN_NUMBER,
-        .tx_pin_no    = TX_PIN_NUMBER,
-        .rts_pin_no   = RTS_PIN_NUMBER,
-        .cts_pin_no   = CTS_PIN_NUMBER,
-        .flow_control = APP_UART_FLOW_CONTROL_DISABLED,
-        .use_parity   = false,
-        .baud_rate    = UART_BAUDRATE_BAUDRATE_Baud115200
-    };
-
-    APP_UART_FIFO_INIT(&comm_params,
-                       UART_RX_BUF_SIZE,
-                       UART_TX_BUF_SIZE,
-                       uart_event_handle,
-                       APP_IRQ_PRIORITY_LOWEST,
-                       err_code);
-
-    APP_ERROR_CHECK(err_code);
-}
 
 /**@brief Function for initializing the nrf log module. */
 static void log_init(void)
@@ -306,37 +233,6 @@ static void log_init(void)
     NRF_LOG_DEFAULT_BACKENDS_INIT();
 }
 
-//static void bsp_event_handler(bsp_event_t evt)
-//{
-//    uint32_t err_code;
-//    uint16_t angle;
-//    switch(evt)
-//    {
-//        case BSP_EVENT_KEY_0:
-//            bsp_board_leds_off();
-//            angle = doa_inc_angle(&m_doa);
-//            printf("NEXT ENGLE SET!! engle == %d\r\n", angle);
-//        break;
-
-//        case BSP_EVENT_KEY_1:
-//            bsp_board_leds_off();
-//            angle = doa_dec_angle(&m_doa);
-//            printf("PREVIOUS ENGLE SET!! engle == %d\r\n", angle);
-//        break;
-
-//        default:
-//            return;
-//    }
-//}
-
-// create  a function to configure all the leds and buttons 
-//static void bsp_configure(void)
-//{
-//    uint32_t err_code = bsp_init(BSP_INIT_LEDS | BSP_INIT_BUTTONS, bsp_event_handler);
-//    bsp_board_leds_off();
-//    APP_ERROR_CHECK(err_code);
-//}
-
 /**@brief Function for initializing the app timer. */
 static void timer_init(void)
 {
@@ -346,56 +242,163 @@ static void timer_init(void)
 
 static void doa_handler(doa_evt_t const * p_evt)
 {
+    size_t size;
     switch(p_evt->evt_id)
     {
         case DOA_DIRECTION_ESTIMATED:
+        {
             //!!printf("DOA_DIRECTION_ESTIMATED == %d \r\n", p_evt->param.direction);
-            NRF_LOG_DEBUG("DOA_DIRECTION_ESTIMATED == %d \r\n", p_evt->param.direction);
-            break;
+            usb_print("%d == DOA_DIRECTION_ESTIMATED  \r\n", p_evt->param.direction);
 
+
+            break;
+        }
         case DOA_CALIBRATION_END:
+        {
             if (p_evt->param.calibration_successful)
             {
                 //!!printf("DOA_CALIBRATION SUCCESS! \r\n");
-                //bsp_board_led_on(2); 
+                usb_print("DOA_CALIBRATION SUCCESS! \r\n");
             }
             else
             {
                 //!!printf("DOA_CALIBRATION FAIL! \r\n");
-                //bsp_board_led_on(0); 
+                usb_print("DOA_CALIBRATION FAIL! \r\n");
             }
             break;
-
+        }
         case DOA_ANGLE_SETUP_REQUIRED:
+        {
             //!!printf("DOA_ANGLE_SETUP_REQUIRED \r\n");
-            //bsp_board_led_on(3); 
+           
+
+            usb_print("angle = %d \r\n", m_doa.messered_angle );
+            for(int i = 0; i < ANTENNA_CONFIGS_NUM; i++)
+            {
+                usb_print("sample from config %d = %d \r\n", i, m_doa.calibration_rss_samples[m_doa.messered_angle][i] );
+            }
+             usb_print("DOA_ANGLE_SETUP_REQUIRED \r\n");
+        
             break;
+        }
 
         case DOA_PACKET_TIMEOUT:
+        {
             //!!printf("DOA_PACKET_TIMEOUT \r\n");
-            //bsp_board_led_on(1);
+            usb_print("DOA_PACKET_TIMEOUT \r\n");
             break;
-
+        }
+        case DOA_WAITING_FOR_START:
+        {
+            usb_print("WAITING FOR \"start\" \r\n");
+        }
         default:
             break;
     }
 }
 
+void clock_init()
+{
+    ret_code_t ret;
+    ret = nrf_drv_clock_init();
+    APP_ERROR_CHECK(ret);
+}
+
+static void log_resetreason(void)
+{
+    /* Reset reason */
+    uint32_t rr = nrf_power_resetreas_get();
+    NRF_LOG_INFO("Reset reasons:");
+    if (0 == rr)
+    {
+        NRF_LOG_INFO("- NONE");
+    }
+    if (0 != (rr & NRF_POWER_RESETREAS_RESETPIN_MASK))
+    {
+        NRF_LOG_INFO("- RESETPIN");
+    }
+    if (0 != (rr & NRF_POWER_RESETREAS_DOG_MASK     ))
+    {
+        NRF_LOG_INFO("- DOG");
+    }
+    if (0 != (rr & NRF_POWER_RESETREAS_SREQ_MASK    ))
+    {
+        NRF_LOG_INFO("- SREQ");
+    }
+    if (0 != (rr & NRF_POWER_RESETREAS_LOCKUP_MASK  ))
+    {
+        NRF_LOG_INFO("- LOCKUP");
+    }
+    if (0 != (rr & NRF_POWER_RESETREAS_OFF_MASK     ))
+    {
+        NRF_LOG_INFO("- OFF");
+    }
+#if defined(NRF_POWER_RESETREAS_LPCOMP_MASK)
+    if (0 != (rr & NRF_POWER_RESETREAS_LPCOMP_MASK  ))
+    {
+        NRF_LOG_INFO("- LPCOMP");
+    }
+#endif
+    if (0 != (rr & NRF_POWER_RESETREAS_DIF_MASK     ))
+    {
+        NRF_LOG_INFO("- DIF");
+    }
+#if defined(NRF_POWER_RESETREAS_NFC_MASK)
+    if (0 != (rr & NRF_POWER_RESETREAS_NFC_MASK     ))
+    {
+        NRF_LOG_INFO("- NFC");
+    }
+#endif
+    if (0 != (rr & NRF_POWER_RESETREAS_VBUS_MASK    ))
+    {
+        NRF_LOG_INFO("- VBUS");
+    }
+}
+
+void usb_handler(usb_evt_t const * p_evt)
+{
+    uint8_t size     = p_evt->param.usb_message.size;
+    char*   payload  = p_evt->param.usb_message.payload;
+
+    if (memcmp(payload, "next\r", size) == 0)
+    {
+
+        uint16_t angle = doa_inc_angle(&m_doa);
+        usb_print("NEXT ENGLE SET!! engle == %d \r\n", angle);
+
+    }
+    else if (memcmp(payload, "prev\r", size) == 0)
+    {
+        uint16_t angle = doa_dec_angle(&m_doa);
+        usb_print("PREVIOUS ENGLE SET!! engle == %d \r\n", angle);
+    }
+    else if (memcmp(payload, "start\r", size) == 0)
+    {
+        doa_start(&m_doa);
+        usb_print("STARTED! \r\n");
+    }
+}
+
 int main(void)
 {
+    nrf_delay_ms(100);
     log_init();
-   // uart_init();
+    log_resetreason();
+
+    clock_init();
+    nrf_delay_ms(100);
+    usb_init(usb_handler);
+    nrf_delay_ms(100);
     ble_stack_init();
     scan_init();
     doa_init(&m_doa, doa_handler);
     timer_init();
-    //bsp_configure();
     timer_doa_init(1000);
+    
     scan_start();
 
-    doa_start_calibration(&m_doa, false);
-
-#if 1
+    doa_start_calibration(&m_doa, true);
+#if 0
     simulation_send_calibration_packets(&m_doa);
     for(int i = 0; i< 25; i++)
     {
@@ -404,12 +407,17 @@ int main(void)
        //nrf_drv_timer_disable(&m_timer_doa);
     }
 #endif
-    //TODO flash storage for configs
 
     // Enter main loop.
     for (;;)
     {
+
+        while (app_usbd_event_queue_process())
+        {
+            /* Nothing to do */
+        }
+        //idle_state_handle();
         //__WFI();
-        //__WFE();
+        //__SEV();
     }
 }

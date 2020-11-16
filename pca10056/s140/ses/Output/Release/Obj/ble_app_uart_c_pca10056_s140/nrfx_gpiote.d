@@ -3,10 +3,10 @@ Output/Release/Obj/ble_app_uart_c_pca10056_s140/nrfx_gpiote.o: \
  ../../../../../../modules/nrfx/nrfx.h \
  ../../../../../../integration/nrfx/nrfx_config.h ../config/sdk_config.h \
  ../../../../../../modules/nrfx/drivers/nrfx_common.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/stdint.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/stddef.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/__crossworks.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/stdbool.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/stdint.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/stddef.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/__crossworks.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/stdbool.h \
  ../../../../../../modules/nrfx/mdk/nrf.h \
  ../../../../../../modules/nrfx/mdk/nrf52840.h \
  ../../../../../../components/toolchain/cmsis/include/core_cm4.h \
@@ -40,7 +40,7 @@ Output/Release/Obj/ble_app_uart_c_pca10056_s140/nrfx_gpiote.o: \
  ../../../../../../components/softdevice/s140/headers/nrf_nvic.h \
  ../../../../../../components/libraries/util/nrf_assert.h \
  ../../../../../../components/libraries/util/app_error.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/stdio.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/stdio.h \
  ../../../../../../components/libraries/util/sdk_errors.h \
  ../../../../../../components/softdevice/s140/headers/nrf_error.h \
  ../../../../../../components/libraries/util/app_error_weak.h \
@@ -55,7 +55,7 @@ Output/Release/Obj/ble_app_uart_c_pca10056_s140/nrfx_gpiote.o: \
  ../../../../../../modules/nrfx/hal/nrf_gpiote.h \
  ../../../../../../modules/nrfx/hal/nrf_gpio.h \
  ../../../../../../components/libraries/util/nrf_bitmask.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/string.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/string.h \
  ../../../../../../integration/nrfx/nrfx_log.h \
  ../../../../../../components/libraries/log/nrf_log.h \
  ../../../../../../components/libraries/util/sdk_common.h \

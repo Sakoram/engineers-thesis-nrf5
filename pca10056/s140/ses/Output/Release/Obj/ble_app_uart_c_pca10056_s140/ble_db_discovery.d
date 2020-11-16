@@ -1,10 +1,10 @@
 Output/Release/Obj/ble_app_uart_c_pca10056_s140/ble_db_discovery.o: \
  /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/components/ble/ble_db_discovery/ble_db_discovery.c \
  ../../../../../../components/libraries/util/sdk_common.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/stdint.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/stdbool.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/string.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/__crossworks.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/stdint.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/stdbool.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/string.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/__crossworks.h \
  ../config/sdk_config.h \
  ../../../../../../components/libraries/util/nordic_common.h \
  ../../../../../../modules/nrfx/mdk/compiler_abstraction.h \
@@ -12,7 +12,7 @@ Output/Release/Obj/ble_app_uart_c_pca10056_s140/ble_db_discovery.o: \
  ../../../../../../components/libraries/util/sdk_errors.h \
  ../../../../../../components/softdevice/s140/headers/nrf_error.h \
  ../../../../../../components/libraries/util/app_util.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/stddef.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/stddef.h \
  ../../../../../../modules/nrfx/mdk/nrf.h \
  ../../../../../../modules/nrfx/mdk/nrf52840.h \
  ../../../../../../components/toolchain/cmsis/include/core_cm4.h \
@@ -46,7 +46,7 @@ Output/Release/Obj/ble_app_uart_c_pca10056_s140/ble_db_discovery.o: \
  ../../../../../../components/ble/common/ble_gatt_db.h \
  ../../../../../../components/ble/nrf_ble_gq/nrf_ble_gq.h \
  ../../../../../../components/libraries/memobj/nrf_memobj.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/stdlib.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/stdlib.h \
  ../../../../../../components/libraries/util/sdk_errors.h \
  ../../../../../../components/libraries/balloc/nrf_balloc.h \
  ../../../../../../components/libraries/util/app_util_platform.h \
@@ -54,7 +54,7 @@ Output/Release/Obj/ble_app_uart_c_pca10056_s140/ble_db_discovery.o: \
  ../../../../../../components/softdevice/s140/headers/nrf_error_soc.h \
  ../../../../../../components/softdevice/s140/headers/nrf_nvic.h \
  ../../../../../../components/libraries/util/app_error.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/stdio.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/stdio.h \
  ../../../../../../components/libraries/util/app_error_weak.h \
  ../../../../../../components/libraries/util/app_util.h \
  ../../../../../../components/libraries/log/nrf_log_instance.h \

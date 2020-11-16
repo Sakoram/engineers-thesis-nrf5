@@ -1,7 +1,7 @@
 Output/Release/Obj/ble_app_uart_c_pca10056_s140/system_nrf52840.o: \
  /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/modules/nrfx/mdk/system_nrf52840.c \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/stdint.h \
- /usr/share/segger_embedded_studio_for_arm_5.10a/include/stdbool.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/stdint.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/stdbool.h \
  /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/modules/nrfx/mdk/nrf.h \
  /home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/modules/nrfx/mdk/nrf52840.h \
  ../../../../../../components/toolchain/cmsis/include/core_cm4.h \

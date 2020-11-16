@@ -16,6 +16,7 @@ typedef enum
     DOA_CALIBRATION_END,
     DOA_DIRECTION_ESTIMATED,
     DOA_ANGLE_SETUP_REQUIRED,
+    DOA_WAITING_FOR_START,
 } doa_evt_id_t;
 
 typedef struct
@@ -52,5 +53,6 @@ void doa_start_calibration(doa_t* doa, bool single_packet_per_angle);
 uint16_t doa_inc_angle(doa_t* doa);
 uint16_t doa_dec_angle(doa_t* doa);
 void doa_receive_RSS_timeout(doa_t* doa);
+void doa_start(doa_t* doa);
 
 #endif // DoA_H__
