@@ -3,18 +3,42 @@
 #include "nrf_log.h"
 
 static void doa_calculate_doa(doa_t* doa);
-static void doa_set_calibration_sample(doa_t* doa, uint8_t rss);
+static void doa_set_gain_sample(doa_t* doa, uint8_t rss);
 static void doa_analyze_direction(doa_t* doa);
 static void _doa_receive_RSS(doa_t* doa, uint8_t rss);
+static uint8_t median(uint8_t size, uint8_t array[]);
 
-void doa_init(doa_t* doa, doa_evt_handler_t doa_evt_handler)
+void doa_init(doa_t* doa, doa_evt_handler_t doa_evt_handler, doa_calibration_mode_t doa_calibration_mode)
 {
     doa->calibrated     = false;
     doa->sample_count   = 0;
     doa->evt_handler    = doa_evt_handler;
-    doa->messered_angle = 0;
+    doa->measured_angle = 0;
 
     antenna_init(&doa->antenna);
+    switch(doa_calibration_mode)
+    {
+        case DOA_WITHOUT_CALIBRATION:
+        {
+            doa->angle_set  = true;
+            doa->calibrated = true;
+            break;
+        }
+        case DOA_MANUAL_CALIBRATION:
+        {
+            doa_start_calibration(doa, true);
+            break;
+        }
+        case DOA_AUTOMATIC_CALIBRATION:
+        {
+            doa_start_calibration(doa, false);
+            break;
+        }
+        
+        default:
+            break;
+        }
+    
 }
 
 inline void doa_receive_RSS(doa_t* doa, uint8_t rss)
@@ -25,20 +49,29 @@ inline void doa_receive_RSS(doa_t* doa, uint8_t rss)
 
 static void _doa_receive_RSS(doa_t* doa, uint8_t rss)
 {
-    //NRF_LOG_DEBUG("_doa_receive_RSS rss == %d", rss);
+    NRF_LOG_DEBUG("_doa_receive_RSS rss == %d", rss);
     if (doa->calibrated)
     {
-        doa->rss_samples[doa->sample_count++] = rss;
-        if (doa->sample_count == DOA_SAMPLES_NUM)
+        doa->rss_samples_measurements[doa->sample_count++] = rss;
+        if (doa->sample_count == DOA_MEASUREMENTS_SAMPLES_NUM)
         {
             doa->sample_count = 0;
-            doa_analyze_direction(doa);
+            int8_t median_of_samples = median(DOA_MEASUREMENTS_SAMPLES_NUM, doa->rss_samples_measurements);
+            doa->median_rss[doa->antenna.configuration] = median_of_samples;
+            if (antenna_set_next_configuration(&doa->antenna))
+                doa_calculate_doa(doa);
         }
     }
     else
     {
         if (doa->angle_set)
-            doa_set_calibration_sample(doa, rss);
+            doa->rss_samples_calibration[doa->sample_count++] = rss;
+            if (doa->sample_count == DOA_CALIBRATION_SAMPLES_NUM)
+            {
+                doa->sample_count = 0;
+                int8_t median_of_samples = median(DOA_CALIBRATION_SAMPLES_NUM, doa->rss_samples_calibration);
+                doa_set_gain_sample(doa, median_of_samples);
+            }
     }
 }
 
@@ -60,7 +93,7 @@ void doa_receive_RSS_timeout(doa_t* doa)
 
         doa->missed_packets++;
         if (doa->missed_packets < DOA_MISSED_PACKETS_MAX)
-            doa_set_calibration_sample(doa, 0);
+            _doa_receive_RSS(doa, 0);
         else
         {
             doa->missed_packets = 0;
@@ -76,41 +109,47 @@ void doa_receive_RSS_timeout(doa_t* doa)
 static void doa_calculate_doa(doa_t* doa)
 {
     doa_evt_t evt;
-    evt.evt_id = DOA_DIRECTION_ESTIMATED;
-    float T[DOA_MESSERED_ANGLE_NUM];
+    float T[DOA_MEASURED_ANGLE_NUM];
     float sumPY, sumP, sumY;
-    for (uint16_t angle = 0; angle < DOA_MESSERED_ANGLE_NUM; angle++)
+    for (uint16_t angle = 0; angle < DOA_MEASURED_ANGLE_NUM; angle++)
     {
         sumPY = sumP = sumY = 0;
         for (uint8_t configuration = 0; configuration < ANTENNA_CONFIGS_NUM; configuration++)
         {
-            sumPY += doa->calibration_rss_samples[angle][configuration] *
-                     doa->mean_rss[configuration];
-            sumP  += doa->calibration_rss_samples[angle][configuration];
-            sumY  += doa->mean_rss[configuration];
+            sumPY += doa->gain_samples[angle][configuration] *
+                     doa->median_rss[configuration];
+            sumP  += doa->gain_samples[angle][configuration];
+            sumY  += doa->median_rss[configuration];
         }
-        T[angle] = sumPY / (sqrt(sumP*sumP) * sqrt(sumY*sumY)); 
+        T[angle] = sumPY / (sqrt(sumP * sumP) * sqrt(sumY * sumY)); 
     }
     uint16_t direction = 0;
-    for (uint16_t i = 0; i < DOA_MESSERED_ANGLE_NUM; i++)
+    for (uint16_t i = 0; i < DOA_MEASURED_ANGLE_NUM; i++)
     {
             if (T[direction] < T[i]) 
             {
                 direction = i;
             }
     }
+    evt.evt_id = DOA_DIRECTION_ESTIMATED;
     evt.param.direction = direction;
     doa->evt_handler(&evt);
 }
 
-static void doa_set_calibration_sample(doa_t* doa, uint8_t rss)
+static void doa_set_gain_sample(doa_t* doa, uint8_t rss)
 {
     doa_evt_t evt;
-    NRF_LOG_DEBUG("doa_set_calibration_sample: %d angle == %d, config == %d ", rss,  doa->messered_angle, doa->antenna.configuration);
-    doa->calibration_rss_samples[doa->messered_angle][doa->antenna.configuration] = rss;
+    //NRF_LOG_DEBUG("doa_set_gain_sample: %d angle == %d, config == %d ", rss,  doa->measured_angle, doa->antenna.configuration);
+    doa->gain_samples[doa->measured_angle][doa->antenna.configuration] = rss;
+
     if (antenna_set_next_configuration(&doa->antenna))
     {
-        if (doa->messered_angle == DOA_MESSERED_ANGLE_NUM - 1)
+
+        evt.evt_id = DOA_ANGLE_MEASURED;
+        evt.param.calibration_samples.angle   = doa->measured_angle * DOA_ANGULAR_PRECISION;
+        evt.param.calibration_samples.samples = doa->gain_samples[doa->measured_angle];
+        doa->evt_handler(&evt);
+        if (doa->measured_angle == DOA_MEASURED_ANGLE_NUM - 1)
         {
             doa->calibrated = true;
             evt.evt_id = DOA_CALIBRATION_END;
@@ -119,8 +158,9 @@ static void doa_set_calibration_sample(doa_t* doa, uint8_t rss)
         }
         else if (doa->manual_angle_setup)
         {
-            doa->angle_set = false;
-            evt.evt_id = DOA_ANGLE_SETUP_REQUIRED;
+            doa->angle_set  = false;
+            evt.evt_id      = DOA_ANGLE_SETUP_REQUIRED;
+            evt.param.angle = doa->measured_angle * DOA_ANGULAR_PRECISION;
             doa->evt_handler(&evt);
         }
         else
@@ -130,21 +170,10 @@ static void doa_set_calibration_sample(doa_t* doa, uint8_t rss)
     }
 }
 
-static void doa_analyze_direction(doa_t* doa)
-{
-    uint16_t sum_rss;
-    for(uint8_t i = 0; i < DOA_SAMPLES_NUM; i++)
-        sum_rss += doa->rss_samples[i];
-
-    doa->mean_rss[doa->antenna.configuration] = sum_rss / DOA_SAMPLES_NUM;
-    if (antenna_set_next_configuration(&doa->antenna))
-        doa_calculate_doa(doa);
-}
-
 void doa_start_calibration(doa_t* doa, bool manual_angle_setup)
 {
     antenna_set_configuration(&doa->antenna, 0);
-    doa->messered_angle     = 0;
+    doa->measured_angle     = 0;
     doa->sample_count       = 0;
     doa->manual_angle_setup = manual_angle_setup;
     doa->calibrated         = false;
@@ -161,24 +190,44 @@ void doa_start_calibration(doa_t* doa, bool manual_angle_setup)
 
 uint16_t doa_inc_angle(doa_t* doa)
 {
-    if (doa->messered_angle < DOA_MESSERED_ANGLE_NUM - 1)
+    if (doa->measured_angle < DOA_MEASURED_ANGLE_NUM - 1)
     {
-        doa->messered_angle++;
+        doa->measured_angle++;
         doa->angle_set = true;
     }
 
-    return doa->messered_angle;
+    return doa->measured_angle;
 }
 uint16_t doa_dec_angle(doa_t* doa)
 {
-    if (doa->messered_angle > 0)
+    if (doa->measured_angle > 0)
     {
-        doa->messered_angle--;
+        doa->measured_angle--;
         doa->angle_set = true;
     }
-    return doa->messered_angle;
+    return doa->measured_angle;
 }
+
 void doa_start(doa_t* doa)
 {
     doa->angle_set = true;
+}
+
+static uint8_t median(uint8_t size, uint8_t array[]) {
+    int temp;
+    int i, j;
+    // simple bubble sort
+    for(i = 0; i < size - 1; i++)
+    {
+        for(j= i + 1; j < size; j++)
+        {
+            if(array[j] < array[i])
+            {
+                temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+        }
+    }
+    return array[size/2];
 }

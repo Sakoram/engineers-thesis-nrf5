@@ -13,8 +13,7 @@ typedef struct
     usb_evt_id_t evt_id;       //!< Event ID.
     union // it is useless now, but maybe I will extend it in future
     {
-        struct
-        {
+        struct {
             uint8_t  size;
             char*    payload;
         } usb_message;

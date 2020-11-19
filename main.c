@@ -27,7 +27,7 @@
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
-#include "simulation.h"
+
 #include "doa.h"
 
 #include "nrf_drv_clock.h"
@@ -39,6 +39,8 @@
 #include "app_usbd.h"
 
 
+
+#include "simulation.h"
 
 
 #define APP_BLE_CONN_CFG_TAG    1                                       /**< Tag that refers to the BLE stack configuration set with @ref sd_ble_cfg_set. The default tag is @ref BLE_CONN_CFG_TAG_DEFAULT. */
@@ -52,7 +54,50 @@
 
 //NRF_BLE_GATT_DEF(m_gatt);                                               /**< GATT module instance. */
 NRF_BLE_SCAN_DEF(m_scan);                                               /**< Scanning Module instance. */
-static doa_t m_doa;                                                     /**< DoA module instance. */
+
+/**< DoA module instance. */
+#ifdef DOA_DEFAULT_VALUE
+static doa_t m_doa = DOA_DEFAULT_VALUE
+   // { .gain_samples = 
+   //{{186, 184, 184, 183, 184, 186, 184, 185, 187, 187, 188, 188},
+   // {189, 185, 185, 187, 185, 185, 184, 187, 188, 187, 190, 190},
+   // {190, 188, 185, 187, 185, 190, 187, 187, 188, 188, 190, 191},
+   // {193, 190, 186, 187, 188, 185, 188, 186, 188, 189, 191, 193},
+   // {194, 193, 190, 187, 190, 190, 188, 187, 189, 191, 193, 194},
+   // {195, 194, 190, 188, 188, 188, 188, 187, 187, 190, 193, 194},
+   // {194, 194, 190, 187, 184, 187, 188, 188, 187, 188, 191, 193},
+   // {191, 193, 191, 189, 184, 187, 187, 188, 185, 188, 189, 191},
+   // {194, 194, 193, 189, 187, 187, 187, 188, 189, 191, 190, 193},
+   // {195, 194, 194, 191, 188, 187, 185, 188, 189, 190, 192, 193},
+   // {194, 195, 194, 193, 191, 189, 188, 189, 191, 192, 192, 194},
+   // {194, 195, 196, 195, 193, 189, 188, 188, 189, 191, 192, 195},
+   // {193, 194, 196, 194, 193, 191, 189, 186, 185, 189, 189, 192},
+   // {193, 193, 195, 194, 193, 189, 186, 185, 186, 188, 187, 188},
+   // {193, 194, 195, 196, 194, 191, 188, 186, 187, 184, 188, 189},
+   // {192, 194, 195, 197, 196, 194, 190, 189, 191, 191, 192, 191},
+   // {193, 194, 195, 196, 196, 195, 192, 191, 190, 191, 192, 192},
+   // {193, 193, 194, 195, 195, 194, 192, 188, 188, 187, 187, 191},
+   // {192, 193, 192, 194, 194, 193, 192, 189, 188, 187, 187, 190},
+   // {192, 193, 194, 194, 194, 195, 194, 191, 189, 187, 188, 190},
+   // {191, 191, 193, 194, 195, 194, 194, 193, 190, 189, 189, 189},
+   // {189, 190, 192, 193, 194, 196, 195, 192, 189, 189, 187, 187},
+   // {189, 190, 191, 193, 194, 195, 194, 193, 190, 189, 188, 189},
+   // {187, 189, 190, 192, 192, 193, 193, 193, 190, 187, 184, 187},
+   // {184, 185, 186, 188, 189, 190, 192, 192, 191, 188, 183, 181},
+   // {184, 183, 185, 185, 187, 188, 190, 189, 189, 188, 184, 184},
+   // {185, 186, 186, 187, 187, 191, 190, 190, 188, 187, 185, 186},
+   // {186, 185, 185, 184, 187, 190, 190, 191, 191, 191, 188, 184},
+   // {186, 189, 188, 184, 186, 189, 190, 191, 193, 192, 192, 190},
+   // {185, 186, 186, 189, 191, 192, 192, 194, 195, 195, 194, 190},
+   // {184, 187, 186, 187, 188, 190, 191, 193, 194, 194, 193, 189},
+   // {188, 186, 186, 187, 187, 190, 191, 193, 194, 194, 192, 189},
+   // {189, 185, 184, 187, 185, 188, 190, 192, 193, 194, 194, 192},
+   // {188, 186, 187, 187, 187, 185, 182, 188, 189, 193, 193, 191},
+   // {185, 186, 186, 190, 189, 189, 187, 189, 190, 191, 192, 189},
+   // {184, 184, 187, 181, 181, 183, 182, 190, 189, 187, 189, 189}}};
+#else
+static doa_t m_doa;
+#endif
 const nrfx_timer_t m_timer_doa = NRF_DRV_TIMER_INSTANCE(1);
 
 static ble_uuid_t const some_random_uuid =
@@ -242,13 +287,11 @@ static void timer_init(void)
 
 static void doa_handler(doa_evt_t const * p_evt)
 {
-    size_t size;
     switch(p_evt->evt_id)
     {
         case DOA_DIRECTION_ESTIMATED:
         {
-            //!!printf("DOA_DIRECTION_ESTIMATED == %d \r\n", p_evt->param.direction);
-            usb_print("%d == DOA_DIRECTION_ESTIMATED  \r\n", p_evt->param.direction);
+            usb_print("DIRECTION ESTIMATED = %d \r\n", p_evt->param.direction);
 
 
             break;
@@ -257,40 +300,42 @@ static void doa_handler(doa_evt_t const * p_evt)
         {
             if (p_evt->param.calibration_successful)
             {
-                //!!printf("DOA_CALIBRATION SUCCESS! \r\n");
-                usb_print("DOA_CALIBRATION SUCCESS! \r\n");
+                usb_print("CALIBRATION SUCCESS! \r\n");
             }
             else
             {
-                //!!printf("DOA_CALIBRATION FAIL! \r\n");
-                usb_print("DOA_CALIBRATION FAIL! \r\n");
+                usb_print("CALIBRATION FAIL! \r\n");
             }
             break;
         }
         case DOA_ANGLE_SETUP_REQUIRED:
         {
-            //!!printf("DOA_ANGLE_SETUP_REQUIRED \r\n");
-           
-
-            usb_print("angle = %d \r\n", m_doa.messered_angle );
-            for(int i = 0; i < ANTENNA_CONFIGS_NUM; i++)
-            {
-                usb_print("sample from config %d = %d \r\n", i, m_doa.calibration_rss_samples[m_doa.messered_angle][i] );
-            }
-             usb_print("DOA_ANGLE_SETUP_REQUIRED \r\n");
-        
+            usb_print("ANGLE SETUP REQUIRED \r\n");
             break;
         }
 
         case DOA_PACKET_TIMEOUT:
         {
-            //!!printf("DOA_PACKET_TIMEOUT \r\n");
-            usb_print("DOA_PACKET_TIMEOUT \r\n");
+            usb_print("PACKET TIMEOUT \r\n");
             break;
         }
         case DOA_WAITING_FOR_START:
         {
             usb_print("WAITING FOR \"start\" \r\n");
+            break;
+        }
+        case DOA_ANGLE_MEASURED:
+        {
+            #if DOA_SIMULATION_USED == false
+            uint16_t angle   = p_evt->param.calibration_samples.angle;
+            uint8_t* samples = p_evt->param.calibration_samples.samples;
+            for(int i = 0; i < ANTENNA_CONFIGS_NUM; i++)
+            {
+                usb_print("sample angle %d, config %d = %d \r\n", 
+                     angle , i, samples[i] );
+            }
+            #endif
+            break;
         }
         default:
             break;
@@ -309,49 +354,60 @@ static void log_resetreason(void)
     /* Reset reason */
     uint32_t rr = nrf_power_resetreas_get();
     NRF_LOG_INFO("Reset reasons:");
+    usb_print("Reset reasons: \r\n");
     if (0 == rr)
     {
         NRF_LOG_INFO("- NONE");
+        usb_print("- NONE \r\n");
     }
     if (0 != (rr & NRF_POWER_RESETREAS_RESETPIN_MASK))
     {
         NRF_LOG_INFO("- RESETPIN");
+        usb_print("- RESETPIN \r\n");
     }
     if (0 != (rr & NRF_POWER_RESETREAS_DOG_MASK     ))
     {
         NRF_LOG_INFO("- DOG");
+        usb_print("- DOG \r\n");
     }
     if (0 != (rr & NRF_POWER_RESETREAS_SREQ_MASK    ))
     {
         NRF_LOG_INFO("- SREQ");
+        usb_print("- SREQ \r\n");
     }
     if (0 != (rr & NRF_POWER_RESETREAS_LOCKUP_MASK  ))
     {
         NRF_LOG_INFO("- LOCKUP");
+        usb_print("- LOCKUP \r\n");
     }
     if (0 != (rr & NRF_POWER_RESETREAS_OFF_MASK     ))
     {
         NRF_LOG_INFO("- OFF");
+        usb_print("- OFF \r\n");
     }
 #if defined(NRF_POWER_RESETREAS_LPCOMP_MASK)
     if (0 != (rr & NRF_POWER_RESETREAS_LPCOMP_MASK  ))
     {
         NRF_LOG_INFO("- LPCOMP");
+        usb_print("- LPCOMP \r\n");
     }
 #endif
     if (0 != (rr & NRF_POWER_RESETREAS_DIF_MASK     ))
     {
         NRF_LOG_INFO("- DIF");
+        usb_print("- DIF \r\n");
     }
 #if defined(NRF_POWER_RESETREAS_NFC_MASK)
     if (0 != (rr & NRF_POWER_RESETREAS_NFC_MASK     ))
     {
         NRF_LOG_INFO("- NFC");
+        usb_print("- NFC \r\n");
     }
 #endif
     if (0 != (rr & NRF_POWER_RESETREAS_VBUS_MASK    ))
     {
         NRF_LOG_INFO("- VBUS");
+        usb_print("- VBUS \r\n");
     }
 }
 
@@ -377,41 +433,39 @@ void usb_handler(usb_evt_t const * p_evt)
         doa_start(&m_doa);
         usb_print("STARTED! \r\n");
     }
+    else if (memcmp(payload, "reset!\r", size) == 0)
+    {
+        usb_print("RESET! \r\n"); // propobly wont be send
+        NVIC_SystemReset();
+    }
 }
 
 int main(void)
 {
     nrf_delay_ms(100);
     log_init();
-    log_resetreason();
-
     clock_init();
-    nrf_delay_ms(100);
+    timer_init();
     usb_init(usb_handler);
-    nrf_delay_ms(100);
     ble_stack_init();
     scan_init();
-    doa_init(&m_doa, doa_handler);
-    timer_init();
+    doa_init(&m_doa, doa_handler, DOA_WITHOUT_CALIBRATION);
     timer_doa_init(1000);
-    
-    scan_start();
+    log_resetreason();
 
-    doa_start_calibration(&m_doa, true);
-#if 0
+#if DOA_SIMULATION_USED == true
     simulation_send_calibration_packets(&m_doa);
     for(int i = 0; i< 25; i++)
     {
        uint16_t simulated_dir = simulation_send_measurement_packets(&m_doa);
-       //!!printf("simulated_dir == %d .\r\n", simulated_dir);
-       //nrf_drv_timer_disable(&m_timer_doa);
+       usb_print("random dir == %d \r\n", simulated_dir);
     }
 #endif
+    scan_start();
 
     // Enter main loop.
     for (;;)
     {
-
         while (app_usbd_event_queue_process())
         {
             /* Nothing to do */

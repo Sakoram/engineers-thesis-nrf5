@@ -107,8 +107,7 @@ Output/Release/Obj/ble_app_uart_c_pca10056_s140/main.o: \
  /usr/share/segger_embedded_studio_for_arm_5.20a/include/stdlib.h \
  ../../../../../../components/libraries/balloc/nrf_balloc.h \
  ../../../../../../components/libraries/log/nrf_log_default_backends.h \
- ../../../simulation/simulation.h ../../../doa/doa.h \
- ../../../antenna/antenna.h \
+ ../../../doa/doa.h ../../../antenna/antenna.h \
  ../../../../../../integration/nrfx/legacy/nrf_drv_clock.h \
  ../../../../../../modules/nrfx/drivers/include/nrfx_clock.h \
  ../../../../../../modules/nrfx/hal/nrf_clock.h \
@@ -132,4 +131,5 @@ Output/Release/Obj/ble_app_uart_c_pca10056_s140/main.o: \
  ../../../../../../components/libraries/usbd/app_usbd_request.h \
  ../../../../../../components/libraries/usbd/app_usbd_descriptor.h \
  ../../../../../../components/libraries/usbd/app_usbd_langid.h \
- ../../../../../../components/libraries/usbd/app_usbd_class_base.h
+ ../../../../../../components/libraries/usbd/app_usbd_class_base.h \
+ ../../../simulation/simulation.h
