@@ -14,20 +14,20 @@
 #define NJG_CTRL_11 NRF_GPIO_PIN_MAP(0, 17)
 #define NJG_CTRL_12 NRF_GPIO_PIN_MAP(0, 21)
 
-const static uint16_t configs[ANTENNA_CONFIGS_NUM][4] =
+const static uint16_t configs[ANTENNA_CONFIGS_NUM][5] =
 {
-    {NJG_CTRL_1,  NJG_CTRL_2,  NJG_CTRL_3,  NJG_CTRL_4},
-    {NJG_CTRL_2,  NJG_CTRL_3,  NJG_CTRL_4,  NJG_CTRL_5},
-    {NJG_CTRL_3,  NJG_CTRL_4,  NJG_CTRL_5,  NJG_CTRL_6},
-    {NJG_CTRL_4,  NJG_CTRL_5,  NJG_CTRL_6,  NJG_CTRL_7},
-    {NJG_CTRL_5,  NJG_CTRL_6,  NJG_CTRL_7,  NJG_CTRL_8},
-    {NJG_CTRL_6,  NJG_CTRL_7,  NJG_CTRL_8,  NJG_CTRL_9},
-    {NJG_CTRL_7,  NJG_CTRL_8,  NJG_CTRL_9,  NJG_CTRL_10},
-    {NJG_CTRL_8,  NJG_CTRL_9,  NJG_CTRL_10, NJG_CTRL_11},
-    {NJG_CTRL_9,  NJG_CTRL_10, NJG_CTRL_11, NJG_CTRL_12},
-    {NJG_CTRL_10, NJG_CTRL_11, NJG_CTRL_12, NJG_CTRL_1},
-    {NJG_CTRL_11, NJG_CTRL_12, NJG_CTRL_1,  NJG_CTRL_2},
-    {NJG_CTRL_12, NJG_CTRL_1,  NJG_CTRL_2,  NJG_CTRL_3},
+    {NJG_CTRL_1,  NJG_CTRL_2,  NJG_CTRL_3,  NJG_CTRL_4,  NJG_CTRL_5},
+    {NJG_CTRL_2,  NJG_CTRL_3,  NJG_CTRL_4,  NJG_CTRL_5,  NJG_CTRL_6},
+    {NJG_CTRL_3,  NJG_CTRL_4,  NJG_CTRL_5,  NJG_CTRL_6,  NJG_CTRL_7},
+    {NJG_CTRL_4,  NJG_CTRL_5,  NJG_CTRL_6,  NJG_CTRL_7,  NJG_CTRL_8},
+    {NJG_CTRL_5,  NJG_CTRL_6,  NJG_CTRL_7,  NJG_CTRL_8,  NJG_CTRL_9},
+    {NJG_CTRL_6,  NJG_CTRL_7,  NJG_CTRL_8,  NJG_CTRL_9,  NJG_CTRL_10},
+    {NJG_CTRL_7,  NJG_CTRL_8,  NJG_CTRL_9,  NJG_CTRL_10, NJG_CTRL_11},
+    {NJG_CTRL_8,  NJG_CTRL_9,  NJG_CTRL_10, NJG_CTRL_11, NJG_CTRL_12},
+    {NJG_CTRL_9,  NJG_CTRL_10, NJG_CTRL_11, NJG_CTRL_12, NJG_CTRL_1},
+    {NJG_CTRL_10, NJG_CTRL_11, NJG_CTRL_12, NJG_CTRL_1,  NJG_CTRL_2},
+    {NJG_CTRL_11, NJG_CTRL_12, NJG_CTRL_1,  NJG_CTRL_2,  NJG_CTRL_3},
+    {NJG_CTRL_12, NJG_CTRL_1,  NJG_CTRL_2,  NJG_CTRL_3,  NJG_CTRL_4},
 };
 
 const static uint16_t pins[ANTENNA_CONFIGS_NUM] =
@@ -51,7 +51,7 @@ void antenna_set_configuration(antenna_t* antenna, uint8_t config)
     for(uint8_t i = 0; i < ANTENNA_CONFIGS_NUM; i++)
         nrf_gpio_pin_clear(pins[i]);
 
-    for(uint8_t i = 0; i < 4; i++)
+    for(uint8_t i = 0; i < 5; i++)
         nrf_gpio_pin_set(configs[config][i]);
 
 }

@@ -53,7 +53,7 @@ typedef struct{
 } message_t;
 
 
-#define QUEUE_SIZE 32
+#define QUEUE_SIZE 196
 APP_TIMER_DEF(m_usb_timer);
 static volatile bool usb_ready = 0;
 static volatile uint8_t tail = 0;//QUEUE_SIZE -1;

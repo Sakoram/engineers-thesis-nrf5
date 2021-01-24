@@ -8526,7 +8526,7 @@
 // <e> NRFX_USBD_CONFIG_LOG_ENABLED - Enable logging in the module
 //==========================================================
 #ifndef NRFX_USBD_CONFIG_LOG_ENABLED
-#define NRFX_USBD_CONFIG_LOG_ENABLED 1
+#define NRFX_USBD_CONFIG_LOG_ENABLED 0
 #endif
 // <o> NRFX_USBD_CONFIG_LOG_LEVEL  - Default Severity level
  

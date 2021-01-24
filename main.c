@@ -56,45 +56,8 @@
 NRF_BLE_SCAN_DEF(m_scan);                                               /**< Scanning Module instance. */
 
 /**< DoA module instance. */
-#ifdef DOA_DEFAULT_VALUE
-static doa_t m_doa = DOA_DEFAULT_VALUE
-   // { .gain_samples = 
-   //{{186, 184, 184, 183, 184, 186, 184, 185, 187, 187, 188, 188},
-   // {189, 185, 185, 187, 185, 185, 184, 187, 188, 187, 190, 190},
-   // {190, 188, 185, 187, 185, 190, 187, 187, 188, 188, 190, 191},
-   // {193, 190, 186, 187, 188, 185, 188, 186, 188, 189, 191, 193},
-   // {194, 193, 190, 187, 190, 190, 188, 187, 189, 191, 193, 194},
-   // {195, 194, 190, 188, 188, 188, 188, 187, 187, 190, 193, 194},
-   // {194, 194, 190, 187, 184, 187, 188, 188, 187, 188, 191, 193},
-   // {191, 193, 191, 189, 184, 187, 187, 188, 185, 188, 189, 191},
-   // {194, 194, 193, 189, 187, 187, 187, 188, 189, 191, 190, 193},
-   // {195, 194, 194, 191, 188, 187, 185, 188, 189, 190, 192, 193},
-   // {194, 195, 194, 193, 191, 189, 188, 189, 191, 192, 192, 194},
-   // {194, 195, 196, 195, 193, 189, 188, 188, 189, 191, 192, 195},
-   // {193, 194, 196, 194, 193, 191, 189, 186, 185, 189, 189, 192},
-   // {193, 193, 195, 194, 193, 189, 186, 185, 186, 188, 187, 188},
-   // {193, 194, 195, 196, 194, 191, 188, 186, 187, 184, 188, 189},
-   // {192, 194, 195, 197, 196, 194, 190, 189, 191, 191, 192, 191},
-   // {193, 194, 195, 196, 196, 195, 192, 191, 190, 191, 192, 192},
-   // {193, 193, 194, 195, 195, 194, 192, 188, 188, 187, 187, 191},
-   // {192, 193, 192, 194, 194, 193, 192, 189, 188, 187, 187, 190},
-   // {192, 193, 194, 194, 194, 195, 194, 191, 189, 187, 188, 190},
-   // {191, 191, 193, 194, 195, 194, 194, 193, 190, 189, 189, 189},
-   // {189, 190, 192, 193, 194, 196, 195, 192, 189, 189, 187, 187},
-   // {189, 190, 191, 193, 194, 195, 194, 193, 190, 189, 188, 189},
-   // {187, 189, 190, 192, 192, 193, 193, 193, 190, 187, 184, 187},
-   // {184, 185, 186, 188, 189, 190, 192, 192, 191, 188, 183, 181},
-   // {184, 183, 185, 185, 187, 188, 190, 189, 189, 188, 184, 184},
-   // {185, 186, 186, 187, 187, 191, 190, 190, 188, 187, 185, 186},
-   // {186, 185, 185, 184, 187, 190, 190, 191, 191, 191, 188, 184},
-   // {186, 189, 188, 184, 186, 189, 190, 191, 193, 192, 192, 190},
-   // {185, 186, 186, 189, 191, 192, 192, 194, 195, 195, 194, 190},
-   // {184, 187, 186, 187, 188, 190, 191, 193, 194, 194, 193, 189},
-   // {188, 186, 186, 187, 187, 190, 191, 193, 194, 194, 192, 189},
-   // {189, 185, 184, 187, 185, 188, 190, 192, 193, 194, 194, 192},
-   // {188, 186, 187, 187, 187, 185, 182, 188, 189, 193, 193, 191},
-   // {185, 186, 186, 190, 189, 189, 187, 189, 190, 191, 192, 189},
-   // {184, 184, 187, 181, 181, 183, 182, 190, 189, 187, 189, 189}}};
+#ifdef DOA_GAIN_SNG_180
+static doa_t m_doa = DOA_GAIN_SNG_180;
 #else
 static doa_t m_doa;
 #endif
@@ -106,7 +69,17 @@ static ble_uuid_t const some_random_uuid =
     .type = 1
 };
 
-
+static ble_gap_scan_params_t const m_scan_param =
+{
+    .active        = 0x01,
+    .interval      = 0x100,
+    .window        = 0x100,
+    .filter_policy  = 0,
+    .timeout       = 0,
+    .scan_phys     = BLE_GAP_PHY_1MBPS,
+    .extended      = 0,
+    .channel_mask  = {0,0,0,0,0xA0},
+};
 
 
 /**@brief Function for handling asserts in the SoftDevice.
@@ -198,8 +171,13 @@ static void scan_evt_handler(scan_evt_t const * p_scan_evt)
             //        p_scan_evt->params.p_whitelist_adv_report->peer_addr.addr[4],
             //        p_scan_evt->params.p_whitelist_adv_report->peer_addr.addr[5]
             //        );
-            doa_receive_RSS(&m_doa, p_scan_evt->params.p_whitelist_adv_report->rssi);
-            nrf_drv_timer_clear(&m_timer_doa);
+            if(p_scan_evt->params.p_whitelist_adv_report->ch_index == 38)
+            {
+                NRF_LOG_INFO("SAMPLE for ch %d rssi %d", p_scan_evt->params.p_whitelist_adv_report->ch_index, p_scan_evt->params.p_whitelist_adv_report->rssi);
+                doa_receive_RSS(&m_doa, p_scan_evt->params.p_whitelist_adv_report->rssi);
+                nrf_drv_timer_clear(&m_timer_doa);
+            }
+                
          } break;
 
          case NRF_BLE_SCAN_EVT_SCAN_TIMEOUT:
@@ -220,10 +198,14 @@ static void scan_init(void)
     ret_code_t          err_code;
     nrf_ble_scan_init_t init_scan;
 
+    
+
     memset(&init_scan, 0, sizeof(init_scan));
+    init_scan.p_scan_param = &m_scan_param;
 
     err_code = nrf_ble_scan_init(&m_scan, &init_scan, scan_evt_handler);
     APP_ERROR_CHECK(err_code);
+    
 
 
     err_code = nrf_ble_scan_filter_set(&m_scan, SCAN_UUID_FILTER, &some_random_uuid);
@@ -291,9 +273,15 @@ static void doa_handler(doa_evt_t const * p_evt)
     {
         case DOA_DIRECTION_ESTIMATED:
         {
-            usb_print("DIRECTION ESTIMATED = %d \r\n", p_evt->param.direction);
-
-
+            double* T = p_evt->param.direction_info.T;
+            uint16_t size = p_evt->param.direction_info.size;
+            usb_print("size = %d \r\n", size);
+            for(uint16_t i = 0; i < size; i += 4)
+            {
+                usb_print("T%d:%.7f %.7f %.7f %.7f \r\n",
+                    i, T[i], T[i + 1], T[i + 2], T[i + 3]);
+            }
+            usb_print("DIRECTION ESTIMATED = %d \r\n", p_evt->param.direction_info.direction);
             break;
         }
         case DOA_CALIBRATION_END:
@@ -327,16 +315,39 @@ static void doa_handler(doa_evt_t const * p_evt)
         case DOA_ANGLE_MEASURED:
         {
             #if DOA_SIMULATION_USED == false
-            uint16_t angle   = p_evt->param.calibration_samples.angle;
-            uint8_t* samples = p_evt->param.calibration_samples.samples;
-            for(int i = 0; i < ANTENNA_CONFIGS_NUM; i++)
+            uint16_t angle   = p_evt->param.calibration_samples_per_angle.angle;
+            uint8_t configs_num = p_evt->param.calibration_samples_per_angle.configs_num;
+            int8_t* samples = p_evt->param.calibration_samples_per_angle.samples;
+            for(uint8_t i = 0; i < configs_num; i++)
             {
-                usb_print("sample angle %d, config %d = %d \r\n", 
+                usb_print("sample-A angle %d, config %d = %d \r\n", 
                      angle , i, samples[i] );
             }
             #endif
             break;
         }
+         case DOA_CALIBRATION_CONFIG_MEASURED:
+        {
+            #if DOA_SIMULATION_USED == false
+            uint16_t angle   = p_evt->param.calibrationg_samples_per_config.angle;
+            uint8_t config   = p_evt->param.calibrationg_samples_per_config.config;
+            uint8_t size = p_evt->param.calibrationg_samples_per_config.samples_size;
+            int8_t* samples = p_evt->param.calibrationg_samples_per_config.samples;
+            for(uint8_t i = 0; i < size; i++)
+            {
+                usb_print("sample-C angle %d, config %d = %d \r\n", 
+                     angle , config, samples[i] );
+            }
+            #endif
+            break;
+        }
+        case DOA_MEASUREMENTS_CONFIG_MEASURED:
+        {
+            uint16_t config = p_evt->param.measurements_sample_per_config.config;
+            float sample  = p_evt->param.measurements_sample_per_config.sample;
+            usb_print("sample-M config %d, sample_dBm %f \r\n", config, sample);
+        }
+        break;
         default:
             break;
     }
@@ -433,6 +444,12 @@ void usb_handler(usb_evt_t const * p_evt)
         doa_start(&m_doa);
         usb_print("STARTED! \r\n");
     }
+    else if (memcmp(payload, "doa\r", size) == 0)
+    {
+        doa_estimate(&m_doa);
+        usb_print("estimating\r\n");
+        
+    }
     else if (memcmp(payload, "reset!\r", size) == 0)
     {
         usb_print("RESET! \r\n"); // propobly wont be send
@@ -449,8 +466,7 @@ int main(void)
     usb_init(usb_handler);
     ble_stack_init();
     scan_init();
-    doa_init(&m_doa, doa_handler, DOA_WITHOUT_CALIBRATION);
-    timer_doa_init(1000);
+    doa_init(&m_doa, doa_handler, DOA_WITHOUT_CALIBRATION); //DOA_MANUAL_CALIBRATION
     log_resetreason();
 
 #if DOA_SIMULATION_USED == true
@@ -461,6 +477,7 @@ int main(void)
        usb_print("random dir == %d \r\n", simulated_dir);
     }
 #endif
+    timer_doa_init(1000);
     scan_start();
 
     // Enter main loop.

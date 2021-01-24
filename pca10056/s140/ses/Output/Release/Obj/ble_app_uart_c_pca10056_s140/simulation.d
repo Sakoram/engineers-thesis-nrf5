@@ -4,4 +4,5 @@ Output/Release/Obj/ble_app_uart_c_pca10056_s140/simulation.o: \
  ../../../doa/doa.h \
  /usr/share/segger_embedded_studio_for_arm_5.20a/include/stdint.h \
  /usr/share/segger_embedded_studio_for_arm_5.20a/include/stdbool.h \
- ../../../antenna/antenna.h
+ ../../../antenna/antenna.h \
+ /usr/share/segger_embedded_studio_for_arm_5.20a/include/math.h

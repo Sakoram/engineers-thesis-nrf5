@@ -1,7 +1,9 @@
 <!DOCTYPE CrossStudio_Session_File>
 <session>
  <Bookmarks/>
- <Breakpoints groups="Breakpoints" active_group="Breakpoints"/>
+ <Breakpoints groups="Breakpoints" active_group="Breakpoints">
+  <BreakpointListItem trigger="" line="137" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="2" filename="../../../doa/doa.c" useHWbreakpoint="false"/>
+ </Breakpoints>
  <ExecutionProfileWindow/>
  <FrameBufferWindow>
   <FrameBufferWindow bufferHeight="-1" addressSpace="" addressText="" bufferWidth="-1"/>
@@ -26,6 +28,7 @@
   <ProjectSessionItem path="ble_app_uart_c_pca10056_s140;ble_app_uart_c_pca10056_s140;Board Support"/>
   <ProjectSessionItem path="ble_app_uart_c_pca10056_s140;ble_app_uart_c_pca10056_s140;doa"/>
   <ProjectSessionItem path="ble_app_uart_c_pca10056_s140;ble_app_uart_c_pca10056_s140;None"/>
+  <ProjectSessionItem path="ble_app_uart_c_pca10056_s140;ble_app_uart_c_pca10056_s140;nRF_BLE"/>
   <ProjectSessionItem path="ble_app_uart_c_pca10056_s140;ble_app_uart_c_pca10056_s140;nRF_Drivers"/>
   <ProjectSessionItem path="ble_app_uart_c_pca10056_s140;ble_app_uart_c_pca10056_s140;nRF_Libraries"/>
   <ProjectSessionItem path="ble_app_uart_c_pca10056_s140;ble_app_uart_c_pca10056_s140;nRF_Log"/>
@@ -51,12 +54,14 @@
  </TraceWindow>
  <Watch1>
   <Watches active="1" update="Never">
-   <Watchpoint expression="m_rx_buffer" name="m_rx_buffer" radix="-1" linenumber="257" filename="../../../main.c"/>
+   <Watchpoint expression="m_rx_buffer" name="m_rx_buffer" radix="-1" linenumber="262" filename="../../../main.c"/>
    <Watchpoint expression="index" name="index" radix="-1" linenumber="165" filename="../../../usb/usb.c"/>
    <Watchpoint expression="message_queue" name="message_queue" radix="-1" linenumber="83" filename="../../../usb/usb.c"/>
    <Watchpoint expression="usb_free" name="usb_free" radix="-1" linenumber="80" filename="../../../usb/usb.c"/>
    <Watchpoint expression="tail" name="tail" radix="-1" linenumber="83" filename="../../../usb/usb.c"/>
    <Watchpoint expression="args" name="args" radix="-1" linenumber="90" filename="../../../usb/usb.c"/>
+   <Watchpoint expression="gain_samples" name="gain_samples" radix="16" linenumber="137" filename="../../../doa/doa.c"/>
+   <Watchpoint expression="doa" name="doa" radix="-1" linenumber="137" filename="../../../doa/doa.c"/>
   </Watches>
  </Watch1>
  <Watch2>
@@ -69,13 +74,13 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="24" y="58" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../main.c" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="485" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../main.c" selected="0" top="463" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="145" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/main.c" useBinaryEdit="0" left="0" path="../../../../../../modules/nrfx/hal/nrf_power.h" selected="0" top="132" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="99" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/main.c" useBinaryEdit="0" left="0" path="../../../../../../components/libraries/util/app_error_weak.c" selected="0" top="89" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="10" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../config/sdk_config.h" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="8528" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../config/sdk_config.h" selected="0" top="8522" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="64" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/usb/usb.c" useBinaryEdit="0" left="0" path="../../../../../../integration/nrfx/legacy/nrf_drv_usbd.h" selected="0" top="47" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="61" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/main.c" useBinaryEdit="0" left="0" path="../../../usb/usb.c" selected="0" top="54" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="1327" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/main.c" useBinaryEdit="0" left="0" path="../../../../../../components/libraries/usbd/app_usbd.c" selected="0" top="461" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="55" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/main.c" useBinaryEdit="0" left="0" path="../../../usb/usb.c" selected="0" top="48" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="12" y="580" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/doa/doa.c" useBinaryEdit="0" left="0" path="../../../../../../components/libraries/usbd/app_usbd.c" selected="0" top="567" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="324" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/components/libraries/usbd/app_usbd.c" useBinaryEdit="0" left="0" path="../../../../../../components/libraries/usbd/app_usbd.h" selected="0" top="307" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="3" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/usb/usb.c" useBinaryEdit="0" left="0" path="../../../usb/usb.h" selected="0" top="0" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="71" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../../../../components/libraries/delay/nrf_delay.h" selected="0" top="52" codecName="Default"/>
@@ -84,13 +89,21 @@
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="171" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../../../../components/libraries/atomic_fifo/nrf_atfifo.c" selected="0" top="165" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="1132" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/usb/usb.c" useBinaryEdit="0" left="0" path="../../../../../../components/libraries/usbd/class/cdc/acm/app_usbd_cdc_acm.c" selected="0" top="1109" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="908" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/main.c" useBinaryEdit="0" left="0" path="../../../../../../components/toolchain/cmsis/include/cmsis_gcc.h" selected="0" top="897" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="43" y="27" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/simulation/simulation.c" useBinaryEdit="0" left="1" path="../../../doa/doa.h" selected="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="75" y="35" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../doa/doa.c" selected="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="5" y="19" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../simulation/simulation.c" selected="1" top="9" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="40" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../antenna/antenna.c" selected="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../antenna/antenna.h" selected="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="4" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/simulation/simulation.c" useBinaryEdit="0" left="0" path="../../../simulation/simulation.h" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="156" y="675" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/doa/doa.c" useBinaryEdit="0" left="134" path="../../../doa/doa.h" selected="1" top="658" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="137" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../doa/doa.c" selected="0" top="117" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="69" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../simulation/simulation.c" selected="0" top="53" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="53" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../antenna/antenna.c" selected="0" top="36" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="6" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/doa/doa.h" useBinaryEdit="0" left="0" path="../../../antenna/antenna.h" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="5" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/simulation/simulation.c" useBinaryEdit="0" left="0" path="../../../simulation/simulation.h" selected="0" top="0" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="219" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../../../../components/libraries/util/app_util.h" selected="0" top="189" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="63" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/main.c" useBinaryEdit="0" left="0" path="../../../../../../integration/nrfx/legacy/nrf_drv_timer.h" selected="0" top="56" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="68" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/integration/nrfx/legacy/nrf_drv_timer.h" useBinaryEdit="0" left="0" path="../../../../../../modules/nrfx/drivers/include/nrfx_timer.h" selected="0" top="61" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="121" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/main.c" useBinaryEdit="0" left="0" path="../../../../../../components/ble/nrf_ble_scan/nrf_ble_scan.h" selected="0" top="107" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="1293" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/main.c" useBinaryEdit="0" left="0" path="../../../../../../components/softdevice/s140/headers/ble_gap.h" selected="0" top="1279" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="1116" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/main.c" useBinaryEdit="0" left="0" path="../../../../../../components/ble/nrf_ble_scan/nrf_ble_scan.c" selected="0" top="1100" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="275" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/doa/doa.c" useBinaryEdit="0" left="0" path="../../../../../../components/libraries/log/nrf_log.h" selected="0" top="270" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../../../ble_peripheral/ble_app_blinky/pca10059/s140/ses/ble_app_blinky_pca10059_s140.emProject" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="845" useTextEdit="1" openedFrom="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/doa/doa.c" useBinaryEdit="0" left="0" path="/usr/share/segger_embedded_studio_for_arm_5.20a/include/math.h" selected="0" top="829" codecName="Default"/>
  </Files>
- <ARMCrossStudioWindow activeProject="ble_app_uart_c_pca10056_s140" fileDialogDefaultFilter="*" autoConnectTarget="J-Link" buildConfiguration="Release" sessionSettings="" debugSearchFileMap="/usr/share/segger_embedded_studio_for_arm_5.10a/source/thumb_crt0.s&#xa;/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/ble_peripheral/ble_app_uart/pca10056/s140/ses/thumb_crt0.s" fileDialogInitialDirectory="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/_inz_/doa-inz/usb" debugSearchPath="" autoConnectCapabilities="3199"/>
+ <ARMCrossStudioWindow activeProject="ble_app_uart_c_pca10056_s140" fileDialogDefaultFilter="*" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="/usr/share/segger_embedded_studio_for_arm_5.10a/source/thumb_crt0.s&#xa;/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/ble_peripheral/ble_app_uart/pca10056/s140/ses/thumb_crt0.s" fileDialogInitialDirectory="/home/mario/Uczelnia/inz/pytka/DeviceDownload/nRF5SDK17009d13099/nRF5_SDK_17.0.0_9d13099/examples/ble_peripheral/ble_app_blinky/pca10059/s140/ses" debugSearchPath="" autoConnectCapabilities="3711"/>
 </session>
